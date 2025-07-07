@@ -1,0 +1,57 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Meteo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <form id="cityForm">
+        <select id="city" name="city">
+            <option value="torino">Torino</option>
+            <option value="bucarest">Bucarest</option>
+        </select>
+        <button type="submit">Mostra Meteo</button>
+    </form>
+
+    <canvas id="meteoChart" width="400" height="200"></canvas>
+
+   <script>
+    let meteoChart = null; // variabile globale
+
+    const form = document.getElementById("cityForm");
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const city = document.getElementById("city").value;
+
+        const response = await fetch(`/meteo?city=${city}`);
+        const data = await response.json();
+
+        if (meteoChart !== null) {
+            meteoChart.destroy();
+        }
+
+        const ctx = document.getElementById('meteoChart').getContext('2d');
+        meteoChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.hours,
+                datasets: [
+                    {
+                        label: 'Temperatura (°C)',
+                        data: data.temperature,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Pioggia (mm)',
+                        data: data.rain,
+                        borderWidth: 1
+                    }
+                ]
+            }
+        });
+    });
+</script>
+</body>
+</html>
