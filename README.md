@@ -27,6 +27,10 @@ git clone https://github.com/RobertSSmau/example-Java
 
 Usa direttamente il file batch incluso: start.bat
 
+Poi visita tramite browser: localhost:8080
+
+Assicurati che la porta sia libera.
+
 ## Avvio tramite terminale
 Clona il repository ed esegui il seguente comando dalla root del progetto:
 
