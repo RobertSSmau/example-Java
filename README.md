@@ -21,3 +21,8 @@ Clona il repository ed esegui il seguente comando dalla root del progetto:
 
 ```bash
 docker-compose up --build
+```
+
+Poi visita tramite browser: localhost:8080
+
+Assicurati che la porta sia libera.
