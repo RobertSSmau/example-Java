@@ -1,0 +1,5 @@
+com\meteo\service\MeteoService.class
+com\meteo\controller\MeteoController.class
+com\meteo\MeteoApplication.class
+com\meteo\model\MeteoResponse.class
+com\meteo\model\MeteoResponse$Hourly.class
