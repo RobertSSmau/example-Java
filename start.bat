@@ -1,10 +1,8 @@
 @echo off
-echo Avvio del container Docker...
+echo Avvio container Meteo...
+docker compose up --build
 
-:: Naviga nella directory del progetto (modifica se necessario)
-cd /d %~dp0
-
-:: Esegui Docker Compose
-docker-compose up --build
+:: Una volta avviato, apri il browser
+start http://localhost:8080
 
 pause

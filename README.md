@@ -1,21 +1,18 @@
-# Meteo App – Spring Boot + Docker
+# Meteo - Spring Boot + Docker Compose
 
-**Meteo App** è un'applicazione web sviluppata con Spring Boot che consente di visualizzare le previsioni meteo (temperature e piogge orarie) per diverse città, utilizzando i dati forniti dall'API di [Open-Meteo](https://open-meteo.com/).
+Webapp che mostra meteo orario e pioggia da [open-meteo.com](https://open-meteo.com).  
+Tecnologie usate: Spring Boot 3, Java 21, Thymeleaf, Docker multi-stage con distroless.
 
-## Funzionalità
-
-- Selezione della città tramite interfaccia web
-- Grafico interattivo delle temperature e precipitazioni orarie
-- Integrazione con Chart.js per la visualizzazione dei dati
-- Backend in Spring Boot
-- Esecuzione semplificata tramite Docker e Docker Compose
+---
 
 ## Requisiti
 
-- Docker installato
-- Docker Compose installato
+- Docker
+- Docker Compose
 
-## First step
+---
+
+## Primo step
 
 Tramite Git Bash eseguire questo comando:
 
@@ -23,7 +20,25 @@ Tramite Git Bash eseguire questo comando:
 git clone https://github.com/RobertSSmau/example-Java
 ```
 
-## Windows
+##  Avvio classico
+
+Build e avvio container:
+
+```bash
+docker compose up --build
+```
+
+Poi visita tramite browser: localhost:8080
+
+Assicurati che la porta sia libera.
+
+---
+
+## 😴 Per i pigrozzi (zzz)
+
+> Script già pronti se non vuoi scrivere manco `docker` nella console.
+
+### 🪟 Windows
 
 Usa direttamente il file batch incluso: start.bat
 
@@ -31,13 +46,73 @@ Poi visita tramite browser: localhost:8080
 
 Assicurati che la porta sia libera.
 
-## Avvio tramite terminale
-Clona il repository ed esegui il seguente comando dalla root del progetto:
+Contenuto dei file:
 
-```bash
-docker-compose up --build
+```bat
+:: start.bat
+@echo off
+docker compose up --build
+pause
 ```
+
+```bat
+:: stop.bat
+@echo off
+docker compose down
+pause
+```
+
+---
+
+### 🐧 Linux / macOS
+
+Usa direttamente i file ssh incluso: start.ssh
 
 Poi visita tramite browser: localhost:8080
 
 Assicurati che la porta sia libera.
+
+Contenuto dei file:
+
+```bash
+# start.sh
+#!/bin/bash
+docker compose up --build
+```
+
+```bash
+# stop.sh
+#!/bin/bash
+docker compose down
+```
+
+
+## 🧱 Dockerfile
+
+> Usa multi-stage: build con Maven + immagine distroless super leggera e sicura (no shell, no root).
+
+```dockerfile
+# Step 1 maven
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Step 2 distroless
+FROM gcr.io/distroless/java21-debian12:nonroot
+WORKDIR /app
+COPY --from=builder /app/target/Meteo-0.0.1-SNAPSHOT.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+---
+
+## 📉 Dimensione finale
+
+- Immagine finale: ~230MB (Spring Boot, distroless, ottimizzata)
+- JAR: ~60MB
+
+---
+
+Fatto apposta per chi non vuole pesare troppo 🍔🍔🍔.
