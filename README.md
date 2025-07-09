@@ -15,6 +15,14 @@
 - Docker installato
 - Docker Compose installato
 
+## First step
+
+Tramite Git Bash eseguire questo comando:
+
+```bash
+git clone https://github.com/RobertSSmau/example-Java
+```
+
 ## Windows
 
 Usa direttamente il file batch incluso: start.bat
