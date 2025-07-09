@@ -15,9 +15,29 @@
 - Docker installato
 - Docker Compose installato
 
-## Avvio rapido con Docker Compose
+## First step
 
+Tramite Git Bash eseguire questo comando:
+
+```bash
+git clone https://github.com/RobertSSmau/example-Java
+```
+
+## Windows
+
+Usa direttamente il file batch incluso: start.bat
+
+Poi visita tramite browser: localhost:8080
+
+Assicurati che la porta sia libera.
+
+## Avvio tramite terminale
 Clona il repository ed esegui il seguente comando dalla root del progetto:
 
 ```bash
 docker-compose up --build
+```
+
+Poi visita tramite browser: localhost:8080
+
+Assicurati che la porta sia libera.
