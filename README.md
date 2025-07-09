@@ -1,7 +1,12 @@
 # Meteo - Spring Boot + Docker Compose
 
-Webapp che mostra meteo orario e pioggia da [open-meteo.com](https://open-meteo.com).  
+Webapp che mostra meteo orario e pioggia da [open-meteo.com](https://open-meteo.com).
+
 Tecnologie usate: Spring Boot 3, Java 21, Thymeleaf, Docker multi-stage con distroless.
+
+---
+
+![image](https://github.com/user-attachments/assets/b3f75ea6-3b22-4760-a973-37d230242c9d)
 
 ---
 
