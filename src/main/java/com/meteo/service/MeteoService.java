@@ -11,31 +11,34 @@ import com.meteo.model.MeteoResponse;
 @Service
 public class MeteoService {
 
-	  private final WebClient webClient = WebClient.create("https://api.open-meteo.com/v1/forecast");
+    private final WebClient webClient = WebClient.create("https://api.open-meteo.com/v1/forecast");
+    private final CityService cityService;
 
-	    public Map<String, Object> getMeteoForCity(String city) {
-	        Map<String, String> coords = Map.of(
-	        		"torino", "45.0705,7.6868",
-	        	    "bucarest", "44.4268,26.1025"
-	        );
+    public MeteoService(CityService cityService) {
+        this.cityService = cityService;
+    }
 
-	        String[] latlon = coords.get(city).split(",");
+    public Map<String, Object> getMeteoForCity(String city) {
+        Map<String, String> coords = cityService.getCityCoordinates();
+        if (!coords.containsKey(city.toLowerCase())) throw new IllegalArgumentException("Città non supportata");
 
-	        String uri = String.format("?latitude=%s&longitude=%s&hourly=temperature_2m,rain&timezone=auto",
-	                latlon[0], latlon[1]);
+        String[] latlon = coords.get(city.toLowerCase()).split(",");
 
-	        MeteoResponse response = webClient.get()
-	                .uri(uri)
-	                .retrieve()
-	                .bodyToMono(MeteoResponse.class)
-	                .block();
+        String uri = String.format("?latitude=%s&longitude=%s&hourly=temperature_2m,rain&timezone=auto",
+                latlon[0], latlon[1]);
 
-	        Map<String, Object> result = new HashMap<>();
-	        result.put("hours", response.hourly().time());
-	        result.put("temperature", response.hourly().temperature_2m());
-	        result.put("rain", response.hourly().rain());
+        MeteoResponse response = webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(MeteoResponse.class)
+                .block();
 
-	        return result;
-	    }
-	
+        Map<String, Object> result = new HashMap<>();
+        result.put("city", city);
+        result.put("hours", response.hourly().time());
+        result.put("temperature", response.hourly().temperature_2m());
+        result.put("rain", response.hourly().rain());
+
+        return result;
+    }
 }
