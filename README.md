@@ -15,8 +15,11 @@
 - Docker installato
 - Docker Compose installato
 
-## Avvio rapido con Docker Compose
+## Windows
 
+Usa direttamente il file batch incluso: start.bat
+
+## Avvio tramite terminale
 Clona il repository ed esegui il seguente comando dalla root del progetto:
 
 ```bash
